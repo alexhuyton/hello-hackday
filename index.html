@@ -21,34 +21,70 @@
       margin: 0;
       min-height: 100vh;
       display: grid;
-      place-items: center;
-      padding: 24px;
+      justify-items: center;
+      padding: 48px 16px;
       background: var(--maroon);
       color: var(--white);
       font-family: "DM Sans", system-ui, sans-serif;
     }
     main {
       width: 100%;
-      max-width: 520px;
+      max-width: 560px;
     }
     h1 {
-      margin: 0 0 24px;
+      margin: 0 0 8px;
       font-family: "Archivo Black", Impact, sans-serif;
       font-weight: 400;
       font-size: clamp(3rem, 14vw, 5.5rem);
       line-height: 0.95;
       letter-spacing: -0.03em;
     }
+    .tagline {
+      margin: 0 0 24px;
+      color: var(--sand);
+      font-size: 1.1rem;
+    }
     .card {
       margin: 0 0 16px;
       padding: 28px 24px;
-      min-height: 7.5em;
       border-radius: 20px;
       background: rgb(216 209 189 / 0.14);
       color: var(--sand);
-      font-size: 1.25rem;
-      font-weight: 500;
-      line-height: 1.45;
+      line-height: 1.5;
+      scroll-margin-top: 16px;
+    }
+    .card h2 {
+      margin: 0 0 6px;
+      color: var(--white);
+      font-family: "Archivo Black", Impact, sans-serif;
+      font-weight: 400;
+      font-size: 1.6rem;
+      line-height: 1.15;
+    }
+    .meta {
+      margin: 0 0 12px;
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .blurb {
+      margin: 0 0 20px;
+      font-size: 1.05rem;
+    }
+    .card h3 {
+      margin: 20px 0 8px;
+      color: var(--blue);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .card ul,
+    .card ol {
+      margin: 0;
+      padding-left: 1.25em;
+    }
+    .card li {
+      margin-bottom: 6px;
     }
     button {
       width: 100%;
@@ -78,29 +114,237 @@
 <body>
   <main>
     <h1>Hello, world</h1>
-    <p class="card" id="message" aria-live="polite">A warm wind is drifting through, and the day feels wide open.</p>
-    <button type="button" id="next">Say something else</button>
+    <p class="tagline">Here's what's for dinner.</p>
+    <article class="card" id="recipe" aria-live="polite"></article>
+    <button type="button" id="next">Give me another recipe</button>
   </main>
   <script>
-    const messages = [
-      "A warm wind is drifting through, and the day feels wide open.",
-      "Somewhere, a kettle is just about to boil.",
-      "The best ideas usually arrive halfway through a walk.",
-      "Today is a good day to start something small.",
-      "There's a sunbeam out there with your name on it.",
-      "Every big project began as a hello world.",
-      "Take a breath. The coffee will wait.",
-      "Someone nearby is about to laugh at their own joke."
+    const recipes = [
+      {
+        name: "Spaghetti with anchovy, garlic & chilli pangrattato",
+        meta: "Serves 2 · 20 minutes",
+        blurb: "The anchovies melt into the oil and make a deep, savoury sauce. The crunchy lemony crumbs go on top.",
+        ingredients: [
+          "200g spaghetti",
+          "6 tbsp olive oil",
+          "3 garlic cloves, thinly sliced",
+          "6 anchovy fillets in oil",
+          "1 fresh red chilli, finely chopped (or 1 tsp chilli flakes)",
+          "50g coarse breadcrumbs (blitzed stale bread)",
+          "Zest of 1 lemon",
+          "Handful of flat-leaf parsley, chopped"
+        ],
+        method: [
+          "Fry the breadcrumbs in 2 tbsp of the oil over a medium heat, stirring, for 4–5 minutes until golden and crisp. Stir in the lemon zest and a pinch of salt, then tip onto a plate.",
+          "Cook the spaghetti in well-salted boiling water until just al dente.",
+          "Meanwhile, put the rest of the oil in a large pan over a low heat with the garlic, anchovies and chilli. Stir for 3–4 minutes until the anchovies melt and the garlic is pale gold.",
+          "Drain the pasta, keeping a mug of the water. Toss the pasta in the pan with a splash of the water until glossy, then stir in the parsley.",
+          "Serve showered with the pangrattato."
+        ]
+      },
+      {
+        name: "Orecchiette with cime di rapa, anchovy & chilli",
+        meta: "Serves 2 · 25 minutes",
+        blurb: "A classic from Puglia. Bitter greens, salty anchovies and a kick of chilli, all clinging to little ear-shaped pasta.",
+        ingredients: [
+          "200g orecchiette",
+          "300g cime di rapa (or tenderstem broccoli), roughly chopped",
+          "5 tbsp olive oil",
+          "2 garlic cloves, sliced",
+          "5 anchovy fillets",
+          "1 fresh red chilli, finely chopped",
+          "40g breadcrumbs",
+          "Grated pecorino, to serve"
+        ],
+        method: [
+          "Toast the breadcrumbs in 1 tbsp of the oil until golden, then set aside.",
+          "Boil the orecchiette in salted water, adding the greens for the last 4 minutes.",
+          "Meanwhile, gently cook the garlic, anchovies and chilli in the rest of the oil until the anchovies dissolve.",
+          "Drain the pasta and greens, keeping a mug of the water. Toss everything in the anchovy oil, adding splashes of water until it coats the pasta and the greens start to break down.",
+          "Top with the pangrattato and plenty of pecorino."
+        ]
+      },
+      {
+        name: "Puttanesca with chilli pangrattato",
+        meta: "Serves 2 · 30 minutes",
+        blurb: "Anchovies, olives and capers make this tomato sauce a real umami bomb. Spicy crumbs add the crunch.",
+        ingredients: [
+          "200g spaghetti",
+          "3 tbsp olive oil",
+          "4 anchovy fillets",
+          "2 garlic cloves, sliced",
+          "½ tsp chilli flakes, plus a pinch for the crumbs",
+          "400g tin plum tomatoes",
+          "60g black olives (Gaeta or Kalamata), pitted and halved",
+          "1 tbsp capers, rinsed",
+          "40g breadcrumbs",
+          "Handful of parsley, chopped"
+        ],
+        method: [
+          "Fry the breadcrumbs with a pinch of chilli flakes in 1 tbsp of the oil until golden, then set aside.",
+          "In the rest of the oil, gently cook the anchovies, garlic and chilli until the anchovies melt.",
+          "Add the tomatoes, crush them with a spoon and simmer for 10–15 minutes until thick. Stir in the olives and capers.",
+          "Cook the spaghetti until al dente, then toss it in the sauce with a splash of the pasta water.",
+          "Finish with the parsley and pangrattato."
+        ]
+      },
+      {
+        name: "Bagna càuda",
+        meta: "Serves 4 as a starter · 25 minutes",
+        blurb: "A warm anchovy and garlic dip from Piedmont. Bring vegetables and bread, and dunk everything.",
+        ingredients: [
+          "120ml olive oil",
+          "40g butter",
+          "6 garlic cloves, finely chopped",
+          "12 anchovy fillets, chopped",
+          "Pinch of chilli flakes (not traditional, but very good)",
+          "Vegetables for dipping: fennel, peppers, radicchio, celery, boiled new potatoes",
+          "Crusty bread"
+        ],
+        method: [
+          "Put the oil, butter and garlic in a small pan over a very low heat. Cook gently for 10 minutes without letting the garlic brown.",
+          "Add the anchovies and chilli and stir for about 5 minutes until they melt into a smooth sauce.",
+          "Keep it warm on the table over a low flame and dip in the vegetables and bread."
+        ]
+      },
+      {
+        name: "Roast cauliflower with anchovy butter & pangrattato",
+        meta: "Serves 2–4 · 40 minutes",
+        blurb: "Charred cauliflower soaks up a salty, garlicky anchovy butter. Lemony crumbs go on top.",
+        ingredients: [
+          "1 cauliflower, cut into florets",
+          "3 tbsp olive oil",
+          "50g soft butter",
+          "5 anchovy fillets, finely chopped",
+          "1 garlic clove, grated",
+          "1 fresh red chilli, finely chopped",
+          "Zest of 1 lemon",
+          "40g breadcrumbs",
+          "Handful of parsley, chopped"
+        ],
+        method: [
+          "Heat the oven to 220°C (200°C fan). Toss the cauliflower with 2 tbsp of the oil and some salt, then roast for 25–30 minutes until charred at the edges.",
+          "Mash the butter with the anchovies, garlic, chilli and half the lemon zest.",
+          "Fry the breadcrumbs in the remaining oil until golden, then stir in the rest of the zest.",
+          "Toss the hot cauliflower with the anchovy butter, then scatter over the pangrattato and parsley."
+        ]
+      },
+      {
+        name: "'Nduja & cherry tomato rigatoni",
+        meta: "Serves 2 · 25 minutes",
+        blurb: "'Nduja is a spicy, spreadable sausage from Calabria. It melts into a fiery, porky sauce.",
+        ingredients: [
+          "200g rigatoni",
+          "2 tbsp olive oil",
+          "1 garlic clove, sliced",
+          "2 anchovy fillets",
+          "60g 'nduja",
+          "250g cherry tomatoes, halved",
+          "40g breadcrumbs",
+          "Handful of basil leaves",
+          "Grated parmesan, to serve"
+        ],
+        method: [
+          "Toast the breadcrumbs in 1 tbsp of the oil until golden, then set aside.",
+          "Cook the garlic and anchovies in the rest of the oil until the anchovies melt. Add the 'nduja and break it up until it melts too.",
+          "Add the tomatoes and cook for about 8 minutes until they collapse.",
+          "Cook the rigatoni until al dente, then toss it in the sauce with a splash of the pasta water.",
+          "Finish with basil, parmesan and the pangrattato."
+        ]
+      },
+      {
+        name: "Chicken thighs with salsa verde",
+        meta: "Serves 2 · 45 minutes",
+        blurb: "Crisp-skinned chicken with a sharp, herby green sauce. Anchovies and capers give it real depth.",
+        ingredients: [
+          "4 bone-in, skin-on chicken thighs",
+          "1 tbsp olive oil",
+          "Big handful of parsley",
+          "Small handful of basil, plus a few mint leaves",
+          "1 tbsp capers",
+          "3 anchovy fillets",
+          "1 small garlic clove",
+          "1 tsp Dijon mustard",
+          "1 tbsp red wine vinegar",
+          "6 tbsp extra virgin olive oil",
+          "Pinch of chilli flakes"
+        ],
+        method: [
+          "Heat the oven to 200°C (180°C fan). Season the chicken and sear it skin-side down in the oil in an ovenproof pan for about 8 minutes until golden.",
+          "Flip the thighs and roast for 25–30 minutes until cooked through (the juices run clear, or 75°C inside).",
+          "Meanwhile, finely chop the herbs, capers, anchovies and garlic together. Stir in the mustard, vinegar, olive oil and chilli, then season.",
+          "Spoon the salsa verde over the chicken to serve."
+        ]
+      },
+      {
+        name: "Uova in purgatorio",
+        meta: "Serves 2 · 25 minutes",
+        blurb: "\"Eggs in purgatory\": eggs poached in a fiery anchovy-tomato sauce. Perfect with bread for mopping.",
+        ingredients: [
+          "2 tbsp olive oil, plus a little for the crumbs",
+          "2 garlic cloves, sliced",
+          "3 anchovy fillets",
+          "1 fresh red chilli, chopped",
+          "400g tin chopped tomatoes",
+          "4 eggs",
+          "30g breadcrumbs",
+          "Handful of basil leaves",
+          "Crusty bread, to serve"
+        ],
+        method: [
+          "Fry the breadcrumbs in a little oil until golden, then set aside.",
+          "In a frying pan, gently cook the garlic, anchovies and chilli in the oil until the anchovies melt.",
+          "Add the tomatoes and simmer for 10 minutes until thickened, then season.",
+          "Make 4 wells in the sauce and crack an egg into each. Cover and cook for 5–7 minutes until the whites are set but the yolks are still runny.",
+          "Top with the pangrattato and basil, and serve with bread."
+        ]
+      }
     ];
-    const message = document.getElementById("message");
-    let current = 0;
-    document.getElementById("next").addEventListener("click", () => {
+
+    const card = document.getElementById("recipe");
+    let current = -1;
+
+    function addList(tag, items) {
+      const list = document.createElement(tag);
+      for (const item of items) {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.append(li);
+      }
+      card.append(list);
+    }
+
+    function addElement(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      el.textContent = text;
+      card.append(el);
+    }
+
+    function showRecipe() {
       let next;
       do {
-        next = Math.floor(Math.random() * messages.length);
+        next = Math.floor(Math.random() * recipes.length);
       } while (next === current);
       current = next;
-      message.textContent = messages[current];
+      const recipe = recipes[current];
+
+      card.replaceChildren();
+      addElement("h2", "", recipe.name);
+      addElement("p", "meta", recipe.meta);
+      addElement("p", "blurb", recipe.blurb);
+      addElement("h3", "", "Ingredients");
+      addList("ul", recipe.ingredients);
+      addElement("h3", "", "Method");
+      addList("ol", recipe.method);
+    }
+
+    showRecipe();
+    document.getElementById("next").addEventListener("click", () => {
+      showRecipe();
+      if (card.getBoundingClientRect().top < 0) {
+        card.scrollIntoView({ behavior: "smooth" });
+      }
     });
   </script>
 </body>
